@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Nick Hershey Skill Print</title>
+    <link rel="stylesheet" href="css/paper-style.css">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="css/ballstyle.css">
+    
+
+    <script type="text/javascript" src="js/paper-full.js"></script>
+    <script type="text/paperscript" canvas="canvas">
+        // Ported from original Metaball script by SATO Hiroyuki
+        // http://park12.wakwak.com/~shp/lc/et/en_aics_script.html
+        project.currentStyle = {
+            fillColor: 'black'
+        };
+
+        var on = true;
+        var width = 800;//screen.width;
+        var height = screen.height;
+        var left = width / 4;
+        var top = height / 4;
+        var r = 50;
+        /*var ballPositions = [[left, top-r], [left, top * 3-r], [left * 3, top-r],
+            [left * 3, top * 3-r]];*/
+        var ballPositions = [[180, 169], [180, 532], [820, 169],
+            [820, 532]];
+
+        var balls = [0,0,0,0];
+        var colors = ['#B5BD21','#F47963','#79B1B1','#E9A722'];
+        for (var i = 0; i < ballPositions.length; i++){
+            balls[i] = new Path.Circle({
+                center: ballPositions[i],
+                radius: r,
+                fillColor: colors[i]
+            });
+        }
+       
+
+        var numTimes = 6390;
+        var sizes = [[],[],[],[]];
+        var addarr = [];
+        var current = 100;
+        var start = [150,70,30,150];
+        var numsteps = [
+        [2000,500,1500,1500,1000,500,1000], //Indian Dance
+        [2500,500,1000,600,200,1000,200,800,200,1000], //Computer Science
+        [3000,600,2000,200,1000,1200], //Entrepreneurship
+        [2500,500,1000,200,2100,200,1500]]; //Tennis
+        var change = [
+        [100,-150,0,40,100,-180,20], //Indian Dance
+        [-20,160,0,-80,40,0,-80,0,80,0], //Computer Science
+        [0,150,-50,110,0,-50], //Entrepreneurship
+        [100,-100,0,-50,0,50,0]]; //Tennis
+
+        for (var i = 0; i < sizes.length; i++) {
+            for (var j = 0; j < numsteps[i].length; j++) {
+                for (var k = 0; k < numsteps[i][j]; k++) {
+                    start[i] += change[i][j] / numsteps[i][j];
+                    sizes[i].push(start[i]);
+                }
+            }
+        }
+        console.log(sizes);
+
+        
+        function onMouseMove(event) {
+            if (on) {
+                mousePoint = event.point;
+                var sizeIndex = Math.floor(mousePoint.x/(width / numTimes));
+                
+                for (var i = 0; i < ballPositions.length; i++){
+                    balls[i].bounds.width = sizes[i][sizeIndex];
+                    balls[i].position = ballPositions[i];
+                    balls[i].bounds.height = sizes[i][sizeIndex];
+                }
+            }
+        }
+        function onMouseDown(event) {
+            on = !on;
+            mousePoint = event.point;
+            var sizeIndex = Math.floor(mousePoint.x/(width / numTimes));
+            for (var i = 0; i < ballPositions.length; i++){
+                balls[i].bounds.width = sizes[i][sizeIndex];
+                balls[i].position = ballPositions[i];
+                balls[i].bounds.height = sizes[i][sizeIndex];
+            }
+        }
+      
+ </script>
+</head>
+<body>
+
+
+    <div id="centercanvas">
+        <div id="title"> Nick Hershey's Skillprint </div>
+        <div class="subtitle" id="top_left"> Indian Dance </div>
+        <div class="subtitle" id="top_right"> Entrepreneurship </div>
+        <div class="subtitle" id="bottom_left"> Computer Science </div>
+        <div class="subtitle" id="bottom_right"> Tennis </div>
+        <div id="datebar"> 
+            <!--<div class="date"> July     '13 </div>
+            <div class="date"> October  '13 </div> -->
+            <div class="date"> January  '14 </div>
+            <div class="date"> April    '14 </div>
+            <div class="date"> July     '14 </div>
+            <div class="date"> October  '14 </div>
+            <div class="date"> January  '15 </div>
+            <div class="date"> April    '15 </div>
+        </div>
+        <canvas id="canvas" resize></canvas>
+        <!--<div id="test"> </div>-->
+        <div class="btn">
+            <div class="btn-back">
+                <h1> My Skillprint </h1>
+                <div style="padding-left:25px; padding-right: 25px; text-align: left;">
+                <p>Welcome! The most obvious question you might be asking is, what is a skillprint? Briefly put, it is a visual representation of your the things you do best. </p>
+                <p> For mine, I decided to depict the relative amount of time I spent over the last year and half on Indian dance, entrepreneurship, computer science, and tennis. </p>
+                 How to use it: 
+                 <ul>
+                    <li> Move your mouse left and right to change time. The size of the ball corresponds to the amoount of tie I spent on that activity. </li>
+                    <li> Click at anytime to pause. </li>
+                </ul> 
+                Enjoy!
+            </div>
+                <button class="yes">Close</button>
+            </div>
+           <div class="btn-front">Learn More</div>
+
+        </div>
+    
+
+
+    </div>
+    
+  <script src="js/index.js"></script>
+</body>
+</html>
